@@ -22,8 +22,8 @@ public class LecturerService implements ServiceInterface<Lecturer, LecturerEntit
     }
 
     @Override
-    public void delete(Lecturer lecturer) {
-        repository.delete(mapper.toEntity(lecturer));
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 
     @Override
@@ -40,12 +40,12 @@ public class LecturerService implements ServiceInterface<Lecturer, LecturerEntit
     }
 
     @Override
-    public List<LecturerEntity> findAll() {
-        return repository.findAll();
+    public List<Lecturer> findAll() {
+        return repository.findAll().stream().map(mapper::toModel).toList();
     }
 
     @Override
-    public Optional<LecturerEntity> findById(Long id) {
-        return repository.findById(id);
+    public Optional<Lecturer> findById(Long id) {
+        return repository.findById(id).stream().map(mapper::toModel).findFirst();
     }
 }

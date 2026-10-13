@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import telegram_app.paranoiabottelegram.constants.Constants;
 import telegram_app.paranoiabottelegram.entity.DisciplineLecturerEntity;
+import telegram_app.paranoiabottelegram.models.DisciplineLecturer;
 import telegram_app.paranoiabottelegram.services.DisciplineLecturerService;
 
 import java.util.List;
@@ -38,9 +39,9 @@ public class KeyboardService {
     public SendMessage getLecturerKeyboard(Long chatId, DisciplineLecturerService service) {
         KeyboardRow row1 = new KeyboardRow();
 
-        List<DisciplineLecturerEntity> disciplineEntities = service.findAll();
-        for (DisciplineLecturerEntity entity : disciplineEntities) {
-            row1.add(entity.getDiscipline().getName());
+        List<DisciplineLecturer> disciplineLecturerList = service.findAll();
+        for (DisciplineLecturer disciplineLecturer : disciplineLecturerList) {
+            row1.add(disciplineLecturer.getDiscipline().getName());
         }
 
         ReplyKeyboardMarkup build = ReplyKeyboardMarkup.builder()

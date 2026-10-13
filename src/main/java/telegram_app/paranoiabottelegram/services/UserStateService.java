@@ -14,7 +14,8 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class UserStateService implements ServiceInterface<UserState, UserStateEntity, Long> {
+public class UserStateService
+        implements ServiceInterface<UserState, UserStateEntity, Long> {
     private final JpaUserStateRepository repository;
 
     private final UserStateMapper mapper;
@@ -53,8 +54,8 @@ public class UserStateService implements ServiceInterface<UserState, UserStateEn
     }
 
     @Override
-    public void delete(UserState userState) {
-        repository.delete(mapper.toEntity(userState));
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 
     @Override
@@ -67,25 +68,23 @@ public class UserStateService implements ServiceInterface<UserState, UserStateEn
                                 )
                         )
                 );
-        userStateEntity = UserStateEntity.builder()
-                .chatId(newModel.getChatId())
-                .state(newModel.getState())
-                .disciplineLecturer(disciplineLecturerMapper.toEntity(newModel.getDisciplineLecturer()))
-                .title(newModel.getTitle())
-                .description(newModel.getDescription())
-                .fileId(newModel.getFileId())
-                .deadline(newModel.getDeadline())
-                .build();
+        userStateEntity.setChatId(newModel.getChatId());
+        userStateEntity.setState(newModel.getState());
+        userStateEntity.setDisciplineLecturer(disciplineLecturerMapper.toEntity(newModel.getDisciplineLecturer()));
+        userStateEntity.setTitle(newModel.getTitle());
+        userStateEntity.setDescription(newModel.getDescription());
+        userStateEntity.setFileId(newModel.getFileId());
+        userStateEntity.setDeadline(newModel.getDeadline());
         repository.save(userStateEntity);
     }
 
     @Override
-    public List<UserStateEntity> findAll() {
-        return repository.findAll();
+    public List<UserState> findAll() {
+        return repository.findAll().stream().map(mapper::toModel).toList();
     }
 
     @Override
-    public Optional<UserStateEntity> findById(Long id) {
-        return repository.findById(id);
+    public Optional<UserState> findById(Long id) {
+        return repository.findById(id).stream().map(mapper::toModel).findFirst();
     }
 }

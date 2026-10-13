@@ -6,8 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import telegram_app.paranoiabottelegram.entity.DisciplineLecturerEntity;
-
 import java.util.Date;
 
 @NoArgsConstructor

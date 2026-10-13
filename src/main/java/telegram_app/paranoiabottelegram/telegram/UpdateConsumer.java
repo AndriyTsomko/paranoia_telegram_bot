@@ -11,14 +11,11 @@ import org.telegram.telegrambots.meta.api.objects.photo.PhotoSize;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import telegram_app.paranoiabottelegram.DeadlineParser;
 import telegram_app.paranoiabottelegram.constants.Constants;
-import telegram_app.paranoiabottelegram.entity.DisciplineLecturerEntity;
-import telegram_app.paranoiabottelegram.entity.HomeworkEntity;
 import telegram_app.paranoiabottelegram.models.BotState;
+import telegram_app.paranoiabottelegram.models.DisciplineLecturer;
 import telegram_app.paranoiabottelegram.models.Homework;
 import telegram_app.paranoiabottelegram.models.UserState;
-import telegram_app.paranoiabottelegram.repository.mapper.DisciplineLecturerMapper;
 import telegram_app.paranoiabottelegram.services.DisciplineLecturerService;
-import telegram_app.paranoiabottelegram.services.DisciplineService;
 import telegram_app.paranoiabottelegram.services.HomeworkService;
 import telegram_app.paranoiabottelegram.services.UserStateService;
 
@@ -34,11 +31,9 @@ import java.util.Optional;
 public class UpdateConsumer implements LongPollingSingleThreadUpdateConsumer {
     private final TelegramClient telegramClient;
     private final KeyboardService keyboardService;
-    private final DisciplineService disciplineService;
     private final DisciplineLecturerService disciplineLecturerService;
     private final HomeworkService homeworkService;
     private final UserStateService userStateService;
-    private final DisciplineLecturerMapper disciplineLecturerMapper;
 
     @Override
     @SneakyThrows
@@ -72,21 +67,21 @@ public class UpdateConsumer implements LongPollingSingleThreadUpdateConsumer {
             telegramClient.execute(keyboardService.getLecturerKeyboard(user.getChatId(), disciplineLecturerService));
             userStateService.updateState(user, BotState.AWAITING_DISCIPLINE);
         } else if (textMessage.equals(Constants.CHECK_ALL_HOMEWORK)) {
-            for (HomeworkEntity homeworkEntity : homeworkService.findAll()) {
+            for (Homework homework : homeworkService.findAll()) {
                 telegramClient.execute(SendMessage.builder()
                         .chatId(user.getChatId())
                         .text(
                                 String.format(
                                         "%s\n\n%s\n\n%s\n\nВикладач: %s\nДедлайн: %s \nДодано:@%s",
-                                        homeworkEntity.getDisciplineLecturer().getDiscipline().getName(),
-                                        homeworkEntity.getTitle(),
-                                        homeworkEntity.getDescription(),
-                                        homeworkEntity.getDisciplineLecturer().getLecturer().getName(),
+                                        homework.getDisciplineLecturer().getDiscipline().getName(),
+                                        homework.getTitle(),
+                                        homework.getDescription(),
+                                        homework.getDisciplineLecturer().getLecturer().getName(),
 
                                         new SimpleDateFormat("d MMMM", new Locale("uk", "UA"))
-                                                .format(homeworkEntity.getDeadline()),
+                                                .format(homework.getDeadline()),
 
-                                        telegramClient.execute(new GetChat(homeworkEntity.getTelegramId().toString())).getUserName()
+                                        telegramClient.execute(new GetChat(homework.getTelegramId().toString())).getUserName()
                                 )
                         )
                         .build());
@@ -149,10 +144,10 @@ public class UpdateConsumer implements LongPollingSingleThreadUpdateConsumer {
 
     @SneakyThrows
     private void handleDisciplineChoice(UserState user, String textMessage) {
-        Optional<DisciplineLecturerEntity> optionalDisciplineLecturerEntity = disciplineLecturerService.findByDiscipline(textMessage);
+        Optional<DisciplineLecturer> optionalDisciplineLecturer = disciplineLecturerService.findByDiscipline(textMessage);
 
-        if (optionalDisciplineLecturerEntity.isPresent()) {
-            user.setDisciplineLecturer(disciplineLecturerMapper.toModel(optionalDisciplineLecturerEntity.get()));
+        if (optionalDisciplineLecturer.isPresent()) {
+            user.setDisciplineLecturer(optionalDisciplineLecturer.get());
             userStateService.update(user, user);
             userStateService.updateState(user, BotState.AWAITING_TITLE);
             telegramClient.execute(SendMessage.builder()

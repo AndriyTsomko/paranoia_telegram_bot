@@ -22,8 +22,8 @@ public class DisciplineService implements ServiceInterface<Discipline, Disciplin
     }
 
     @Override
-    public void delete(Discipline discipline) {
-        repository.delete(mapper.toEntity(discipline));
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 
     @Override
@@ -42,12 +42,12 @@ public class DisciplineService implements ServiceInterface<Discipline, Disciplin
     }
 
     @Override
-    public List<DisciplineEntity> findAll() {
-        return repository.findAll();
+    public List<Discipline> findAll() {
+        return repository.findAll().stream().map(mapper::toModel).toList();
     }
 
     @Override
-    public Optional<DisciplineEntity> findById(Long id) {
-        return repository.findById(id);
+    public Optional<Discipline> findById(Long id) {
+        return repository.findById(id).stream().map(mapper::toModel).findFirst();
     }
 }

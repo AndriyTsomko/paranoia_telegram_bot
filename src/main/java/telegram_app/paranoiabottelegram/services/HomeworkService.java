@@ -19,7 +19,9 @@ import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
-public class HomeworkService implements ServiceInterface<Homework, HomeworkEntity, Long>{
+public class HomeworkService
+        implements ServiceInterface<Homework, HomeworkEntity, Long>{
+
     private final HomeworkMapper homeworkMapper;
     private final JpaHomeworkRepository repository;
     private final DisciplineLecturerMapper disciplineLecturerMapper;
@@ -30,8 +32,8 @@ public class HomeworkService implements ServiceInterface<Homework, HomeworkEntit
     }
 
     @Override
-    public void delete(Homework homework) {
-        repository.delete(homeworkMapper.toEntity(homework));
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 
     @Override
@@ -56,13 +58,13 @@ public class HomeworkService implements ServiceInterface<Homework, HomeworkEntit
     }
 
     @Override
-    public List<HomeworkEntity> findAll() {
-        return repository.findAll();
+    public List<Homework> findAll() {
+        return repository.findAll().stream().map(homeworkMapper::toModel).toList();
     }
 
     @Override
-    public Optional<HomeworkEntity> findById(Long id) {
-        return repository.findById(id);
+    public Optional<Homework> findById(Long id) {
+        return repository.findById(id).stream().map(homeworkMapper::toModel).findFirst();
     }
 
     public List<Homework> findTodayHomeworks(){

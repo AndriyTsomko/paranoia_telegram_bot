@@ -15,8 +15,8 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class DisciplineLecturerService implements
-        ServiceInterface<DisciplineLecturer, DisciplineLecturerEntity, Long> {
+public class DisciplineLecturerService
+        implements ServiceInterface<DisciplineLecturer, DisciplineLecturerEntity, Long> {
 
     private final JpaDisciplineLecturerRepository repository;
     private final DisciplineLecturerMapper disciplineLecturerMapper;
@@ -29,8 +29,8 @@ public class DisciplineLecturerService implements
     }
 
     @Override
-    public void delete(DisciplineLecturer disciplineLecturer) {
-        repository.delete(disciplineLecturerMapper.toEntity(disciplineLecturer));
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 
     @Override
@@ -50,16 +50,17 @@ public class DisciplineLecturerService implements
     }
 
     @Override
-    public List<DisciplineLecturerEntity> findAll() {
-        return repository.findAll();
+    public List<DisciplineLecturer> findAll() {
+        return repository.findAll().stream().map(disciplineLecturerMapper::toModel).toList();
     }
 
     @Override
-    public Optional<DisciplineLecturerEntity> findById(Long id) {
-        return repository.findById(id);
+    public Optional<DisciplineLecturer> findById(Long id) {
+        return repository.findById(id).stream().map(disciplineLecturerMapper::toModel).findFirst();
     }
 
-    public Optional<DisciplineLecturerEntity> findByDiscipline(String disciplineName){
-        return repository.findDisciplineLecturerEntityByDisciplineName(disciplineName);
+    public Optional<DisciplineLecturer> findByDiscipline(String disciplineName){
+        return repository.findDisciplineLecturerEntityByDisciplineName(disciplineName).stream()
+                .map(disciplineLecturerMapper::toModel).findFirst();
     }
 }
