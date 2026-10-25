@@ -1,0 +1,9 @@
+spring.application.name=name
+
+telegram.bot.name=name
+telegram.bot.token=token
+
+spring.datasource.url=jdbc:url
+spring.datasource.username=username
+spring.datasource.password=password
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
