@@ -37,7 +37,7 @@ public class HomeworkEntity {
     @Column(name = "created_time")
     private LocalDateTime createdTime;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title")
     private String title;
 
     @Column(name = "description")
