@@ -38,9 +38,9 @@ public class DeadlineParser {
         try {
             String normalizedInput = input.trim().replaceAll("\\s+", " ").toLowerCase(UKRAINIAN_LOCALE);
             LocalDateTime localDateTime = LocalDateTime.parse(normalizedInput, FLEXIBLE_FORMATTER);
-            if (localDateTime.isBefore(LocalDateTime.now())) {
-                return Optional.empty();
-            }
+//            if (localDateTime.isBefore(LocalDateTime.now())) {
+//                return Optional.empty();
+//            }
             Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
             return Optional.of(date);
 
