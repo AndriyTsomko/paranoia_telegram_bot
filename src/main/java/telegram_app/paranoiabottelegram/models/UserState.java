@@ -22,4 +22,13 @@ public class UserState {
     private String description;
     private String fileId;
     private Date deadline;
+
+    public void clear(){
+        this.setState(BotState.IDLE);
+        this.setDisciplineLecturer(null);
+        this.setDeadline(null);
+        this.setDescription(null);
+        this.setTitle(null);
+        this.setFileId(null);
+    }
 }
