@@ -27,4 +27,15 @@ public class UserState {
         this.setTitle(null);
         this.setFileId(null);
     }
+
+    public Homework toHomeworkDraft(){
+        return Homework.builder()
+                .disciplineLecturer(this.disciplineLecturer)
+                .title(this.title)
+                .description(this.description)
+                .telegramId(this.chatId)
+                .fileId(this.fileId)
+                .deadline(this.deadline)
+                .build();
+    }
 }
