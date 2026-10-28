@@ -2,17 +2,17 @@ package telegram_app.paranoiabottelegram;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Optional;
 
 public class DeadlineParser {
 
     private static final Locale UKRAINIAN_LOCALE = new Locale("uk", "UA");
+
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private static final DateTimeFormatter FLEXIBLE_FORMATTER = new DateTimeFormatterBuilder()
             .appendOptional(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
@@ -31,7 +31,7 @@ public class DeadlineParser {
             .parseDefaulting(ChronoField.YEAR, LocalDate.now().getYear())
             .toFormatter(UKRAINIAN_LOCALE);
 
-    public static Optional<Date> parseToDate(String input) {
+    public static Optional<LocalDateTime> parseToLocalDateTime(String input) {
         if (input == null || input.isBlank()) {
             return Optional.empty();
         }
@@ -41,8 +41,7 @@ public class DeadlineParser {
 //            if (localDateTime.isBefore(LocalDateTime.now())) {
 //                return Optional.empty();
 //            }
-            Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-            return Optional.of(date);
+            return Optional.of(localDateTime);
 
         } catch (Exception e) {
             return Optional.empty();

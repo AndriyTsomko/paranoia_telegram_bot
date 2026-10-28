@@ -14,7 +14,6 @@ import telegram_app.paranoiabottelegram.services.UserStateService;
 import telegram_app.paranoiabottelegram.telegram.TelegramMessageSender;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Component
 public class SaveHandler extends AbstractCallbackQueryHandler {
@@ -31,7 +30,7 @@ public class SaveHandler extends AbstractCallbackQueryHandler {
     public void handle(CallbackQuery callbackQuery, UserState userState) {
         Long chatId = userState.getChatId();
         DisciplineLecturer disciplineLecturer = userState.getDisciplineLecturer();
-        Date deadline = userState.getDeadline();
+        LocalDateTime deadline = userState.getDeadline();
 
         if (disciplineLecturer == null){
             telegramMessageSender.sendMessage(chatId, "Щоб зберегти ДЗ потрібно вибрати предмет");

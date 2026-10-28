@@ -9,7 +9,7 @@ import telegram_app.paranoiabottelegram.services.KeyboardService;
 import telegram_app.paranoiabottelegram.services.UserStateService;
 import telegram_app.paranoiabottelegram.telegram.TelegramMessageSender;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
@@ -27,7 +27,7 @@ public class DeadlineFieldInputHandler extends AbstractFieldInputMessageHandler 
 
     @Override
     protected void applyValue(UserState state, String value) {
-        Optional<Date> optionalDate = DeadlineParser.parseToDate(value);
+        Optional<LocalDateTime> optionalDate = DeadlineParser.parseToLocalDateTime(value);
         if (optionalDate.isPresent()){
             state.setDeadline(optionalDate.get());
         } else {

@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +17,5 @@ public class Homework {
     private String description;
     private Long telegramId;
     private String fileId;
-    private Date deadline;
+    private LocalDateTime deadline;
 }

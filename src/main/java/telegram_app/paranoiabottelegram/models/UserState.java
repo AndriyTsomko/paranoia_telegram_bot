@@ -1,12 +1,8 @@
 package telegram_app.paranoiabottelegram.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import java.util.Date;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,9 +17,9 @@ public class UserState {
     private String title;
     private String description;
     private String fileId;
-    private Date deadline;
+    private LocalDateTime deadline;
 
-    public void clear(){
+    public void clear() {
         this.setState(BotState.IDLE);
         this.setDisciplineLecturer(null);
         this.setDeadline(null);

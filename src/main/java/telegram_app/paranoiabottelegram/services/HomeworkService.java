@@ -10,12 +10,11 @@ import telegram_app.paranoiabottelegram.repository.mapper.HomeworkMapper;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
-import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -67,30 +66,21 @@ public class HomeworkService
         return repository.findById(id).stream().map(homeworkMapper::toModel).findFirst();
     }
 
-    public List<Homework> findTodayHomeworks(){
-        return repository.findHomeworkEntitiesByDeadlineBetween(
-                Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                Date.from(LocalDate.now().atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant()))
-                .stream().map(homeworkMapper::toModel).toList();
-    }
-
-    public List<Homework> findWeekHomeworks(){
+    public List<Homework> findTodayHomeworks() {
         LocalDate today = LocalDate.now();
-        ZoneId systemZone = ZoneId.systemDefault();
-
-        Date startOfWeek = Date.from(
-                today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-                        .atStartOfDay(systemZone)
-                        .toInstant()
-        );
-        Date endOfWeek = Date.from(
-                today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
-                        .atTime(LocalTime.MAX)
-                        .atZone(systemZone)
-                        .toInstant()
-        );
-
-        return repository.findHomeworkEntitiesByDeadlineBetween(startOfWeek, endOfWeek).stream()
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
+        return repository.findHomeworkEntitiesByDeadlineBetween(startOfDay, endOfDay)
+                .stream()
+                .map(homeworkMapper::toModel)
+                .toList();
+    }
+    public List<Homework> findWeekHomeworks() {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).atStartOfDay();
+        LocalDateTime endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).atTime(LocalTime.MAX);
+        return repository.findHomeworkEntitiesByDeadlineBetween(startOfWeek, endOfWeek)
+                .stream()
                 .map(homeworkMapper::toModel)
                 .toList();
     }

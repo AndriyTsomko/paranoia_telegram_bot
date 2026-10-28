@@ -9,6 +9,9 @@ import telegram_app.paranoiabottelegram.models.Homework;
 import telegram_app.paranoiabottelegram.models.UserState;
 import telegram_app.paranoiabottelegram.telegram.TelegramMessageSender;
 
+import java.time.format.TextStyle;
+import java.util.Locale;
+
 @Component
 @RequiredArgsConstructor
 public class HomeworkPrinter {
@@ -21,22 +24,32 @@ public class HomeworkPrinter {
         String discipline = userState.getDisciplineLecturer() != null ?
                 userState.getDisciplineLecturer().getDiscipline().getName() : "не вказано";
 
-        String title = userState.getTitle() != null ? userState.getTitle() : "не вказано";
+        String title = userState.getTitle() != null
+                ? userState.getTitle() : "не вказано";
 
-        String description = userState.getDescription() != null ? userState.getDescription() : "не вказано";
+        String description = userState.getDescription() != null
+                ? userState.getDescription() : "не вказано";
 
         String lecturer = userState.getDisciplineLecturer() != null ?
                 userState.getDisciplineLecturer().getLecturer().getName() : "не вказано";
 
-        String deadline = userState.getDeadline() != null ? userState.getDeadline().toString() : "не вказано";
+        String deadline = userState.getDeadline() != null
+                ? userState.getDeadline().toString() : "не вказано";
+
+        String day = userState.getDeadline().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("uk"));
+
+        String capitalized = userState.getDeadline() != null ?
+                day.substring(0, 1).toUpperCase() + day.substring(1)
+                : "";
 
         String homeworkText = String.format(
-                "Предмет: %s\n\nЗаголовок: %s\n\nОпис: %s\n\nВикладач: %s\n\nТермін здачі: %s",
+                "Предмет: %s\n\nЗаголовок: %s\n\nОпис: %s\n\nВикладач: %s\n\nТермін здачі: %s %s",
                 discipline,
                 title,
                 description,
                 lecturer,
-                deadline
+                deadline,
+                capitalized
         );
 
         telegramMessageSender.sendMessage(chatId, homeworkText);
@@ -54,7 +67,7 @@ public class HomeworkPrinter {
         String lecturer = homework.getDisciplineLecturer() != null ?
                 homework.getDisciplineLecturer().getLecturer().getName() : "не вказано";
 
-        String deadline = homework.getDeadline() != null ? homework.getDeadline().toString() : "не вказано";
+        String deadline = homework.getDeadline() != null ? homework.getDeadline().format(DeadlineParser.DATE_FORMATTER) : "не вказано";
         String username = null;
 
         try {
@@ -63,15 +76,20 @@ public class HomeworkPrinter {
             throw new RuntimeException(e);
         }
 
+        String day = homework.getDeadline().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("uk"));
 
+        String capitalized = homework.getDeadline() != null ?
+                day.substring(0, 1).toUpperCase() + day.substring(1)
+                : "не вказано";
 
         String homeworkText = String.format(
-                "Предмет: %s\n\nЗаголовок: %s\n\nОпис: %s\n\nВикладач: %s\n\nТермін здачі: %s\nДодано: @%s",
+                "\nПредмет: %s\n\nЗаголовок: %s\n\nОпис: %s\n\nВикладач: %s\n\nТермін здачі: %s %s\nДодано: @%s",
                 discipline,
                 title,
                 description,
                 lecturer,
                 deadline,
+                capitalized,
                 username
         );
 
