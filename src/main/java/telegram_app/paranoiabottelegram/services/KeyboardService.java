@@ -1,7 +1,6 @@
-package telegram_app.paranoiabottelegram.telegram;
+package telegram_app.paranoiabottelegram.services;
 
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
@@ -10,7 +9,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import telegram_app.paranoiabottelegram.constants.Constants;
-import telegram_app.paranoiabottelegram.services.DisciplineLecturerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +60,7 @@ public class KeyboardService {
     public ReplyKeyboardMarkup getMainKeyboard() {
         KeyboardRow row1 = new KeyboardRow();
         row1.add(new KeyboardButton(ADD_HOMEWORK));
-        row1.add(new KeyboardButton(CHECK_HOMEWORK_BY_OWN_TIME));
+//        row1.add(new KeyboardButton(CHECK_HOMEWORK_BY_OWN_TIME));//todo
 
         KeyboardRow row2 = new KeyboardRow();
         row2.add(new KeyboardButton(Constants.CHECK_TODAY_HOMEWORK));
