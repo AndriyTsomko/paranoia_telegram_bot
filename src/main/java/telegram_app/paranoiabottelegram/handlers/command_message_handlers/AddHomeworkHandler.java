@@ -27,7 +27,7 @@ public class AddHomeworkHandler extends AbstractCommandMessageHandler {
     @Override
     public void handle(Message message, UserState userState) {
         Long chatId = userState.getChatId();
-        String text = "Виберіть пункт меню";
+        String text = "<b>Виберіть пункт меню</b>\n<i>Обов'язково вказати дату здачі і предмет</i>";
 
         telegramMessageSender.sendMessage(chatId, text, keyboardService.getHomeworkInlineKeyboard());
 

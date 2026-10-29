@@ -16,6 +16,7 @@ public class TelegramMessageSender {
     public void sendMessage(Long chatId, String text){
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
+                .parseMode("HTML")
                 .text(text)
                 .build();
         processingSendMessage(sendMessage, chatId, text);
@@ -24,6 +25,7 @@ public class TelegramMessageSender {
     public void sendMessage(Long chatId, String text, ReplyKeyboard replyKeyboard){
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
+                .parseMode("HTML")
                 .text(text)
                 .replyMarkup(replyKeyboard)
                 .build();

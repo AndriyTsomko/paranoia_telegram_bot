@@ -54,13 +54,13 @@ public class HomeworkPrinter {
                 : "";
 
         String homeworkText = String.format(
-                "\nПредмет: %s\n\nЗаголовок: %s\n\nОпис: %s\n\nВикладач: %s\n\nТермін здачі: %s %s\nДодано: @%s",
+                "<b>\uD83D\uDD34Предмет: %s\n\uD83D\uDCC5Термін здачі: %s %s</b>\n\nЗаголовок:\n%s\n\nОпис:\n%s\n\n\uD83D\uDC68\u200D\uD83C\uDFEBВикладач: %s\n\uD83D\uDD17Додано: @%s",
                 discipline,
+                deadline,
+                capitalized,
                 title,
                 description,
                 lecturer,
-                deadline,
-                capitalized,
                 username
         );
 

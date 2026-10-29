@@ -25,9 +25,9 @@ public class Constants {
 
     public static final String ADD_TITLE = "Додати заголовок";
     public static final String ADD_DESCRIPTION = "Додати опис";
-    public static final String ADD_DEADLINE = "Додати дедлайн";
+    public static final String ADD_DEADLINE = "*Додати дедлайн";
     public static final String ADD_FILE = "Додати файл";
-    public static final String CHOOSE_DISCIPLINE = "Вибрати предмет";
+    public static final String CHOOSE_DISCIPLINE = "*Вибрати предмет";
     public static final String REVIEW_HOMEWORK = "Переглянути";
     public static final String SAVE_HOMEWORK = "Зберегти";
     public static final String CANCEL = "Скасувати";
