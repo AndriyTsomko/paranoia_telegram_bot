@@ -9,6 +9,8 @@ import telegram_app.paranoiabottelegram.models.Homework;
 @AllArgsConstructor
 public class HomeworkMapper implements MapperInterface<Homework, HomeworkEntity> {
     private final DisciplineLecturerMapper disciplineLecturerMapper;
+    private final FileMapper fileMapper;
+
     @Override
     public HomeworkEntity toEntity(Homework model) {
         if (model == null) {
@@ -21,7 +23,7 @@ public class HomeworkMapper implements MapperInterface<Homework, HomeworkEntity>
                 .title(model.getTitle())
                 .description(model.getDescription())
                 .telegramId(model.getTelegramId())
-                .fileId(model.getFileId())
+                .files(model.getFiles().stream().map(fileMapper::toEntity).toList())
                 .deadline(model.getDeadline())
                 .build();
     }
@@ -38,7 +40,7 @@ public class HomeworkMapper implements MapperInterface<Homework, HomeworkEntity>
                 .title(entity.getTitle())
                 .description(entity.getDescription())
                 .telegramId(entity.getTelegramId())
-                .fileId(entity.getFileId())
+                .files(entity.getFiles().stream().map(fileMapper::toModel).toList())
                 .deadline(entity.getDeadline())
                 .build();
     }

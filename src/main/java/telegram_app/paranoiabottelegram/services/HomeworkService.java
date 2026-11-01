@@ -6,6 +6,7 @@ import telegram_app.paranoiabottelegram.entity.HomeworkEntity;
 import telegram_app.paranoiabottelegram.models.Homework;
 import telegram_app.paranoiabottelegram.repository.jpa.JpaHomeworkRepository;
 import telegram_app.paranoiabottelegram.repository.mapper.DisciplineLecturerMapper;
+import telegram_app.paranoiabottelegram.repository.mapper.FileMapper;
 import telegram_app.paranoiabottelegram.repository.mapper.HomeworkMapper;
 
 import java.time.DayOfWeek;
@@ -24,6 +25,7 @@ public class HomeworkService
     private final HomeworkMapper homeworkMapper;
     private final JpaHomeworkRepository repository;
     private final DisciplineLecturerMapper disciplineLecturerMapper;
+    private final FileMapper fileMapper;
 
     @Override
     public HomeworkEntity save(Homework homework) {
@@ -51,7 +53,7 @@ public class HomeworkService
         entity.setTitle(newModel.getTitle());
         entity.setDescription(newModel.getDescription());
         entity.setTelegramId(newModel.getTelegramId());
-        entity.setFileId(newModel.getFileId());
+        entity.setFiles(newModel.getFiles().stream().map(fileMapper::toEntity).toList());
         entity.setDeadline(newModel.getDeadline());
         repository.save(entity);
     }

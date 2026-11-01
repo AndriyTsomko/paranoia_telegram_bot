@@ -5,6 +5,7 @@ import lombok.*;
 import telegram_app.paranoiabottelegram.models.BotState;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "user_states")
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class UserStateEntity {
     @Id
+    @Column(name = "chat_id")
     private Long chatId;
 
     @Enumerated(EnumType.STRING)
@@ -31,10 +33,9 @@ public class UserStateEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "file_id")
-    private String fileId;
-
     @Column(name = "deadline")
     private LocalDateTime deadline;
 
+    @OneToMany(mappedBy = "userState", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FileEntity> files;
 }

@@ -8,8 +8,8 @@ import telegram_app.paranoiabottelegram.models.UserState;
 @Component
 @AllArgsConstructor
 public class UserStateMapper implements MapperInterface<UserState, UserStateEntity>{
-
     private final DisciplineLecturerMapper disciplineLecturerMapper;
+    private final FileMapper fileMapper;
     @Override
     public UserStateEntity toEntity(UserState userState) {
         if (userState == null) {
@@ -21,7 +21,7 @@ public class UserStateMapper implements MapperInterface<UserState, UserStateEnti
                 .disciplineLecturer(disciplineLecturerMapper.toEntity(userState.getDisciplineLecturer()))
                 .title(userState.getTitle())
                 .description(userState.getDescription())
-                .fileId(userState.getFileId())
+                .files(userState.getFiles().stream().map(fileMapper::toEntity).toList())
                 .deadline(userState.getDeadline())
                 .build();
     }
@@ -37,7 +37,7 @@ public class UserStateMapper implements MapperInterface<UserState, UserStateEnti
                 .disciplineLecturer(disciplineLecturerMapper.toModel(userStateEntity.getDisciplineLecturer()))
                 .title(userStateEntity.getTitle())
                 .description(userStateEntity.getDescription())
-                .fileId(userStateEntity.getFileId())
+                .files(userStateEntity.getFiles().stream().map(fileMapper::toModel).toList())
                 .deadline(userStateEntity.getDeadline())
                 .build();
     }

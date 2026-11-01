@@ -7,6 +7,7 @@ import telegram_app.paranoiabottelegram.models.BotState;
 import telegram_app.paranoiabottelegram.models.UserState;
 import telegram_app.paranoiabottelegram.repository.jpa.JpaUserStateRepository;
 import telegram_app.paranoiabottelegram.repository.mapper.DisciplineLecturerMapper;
+import telegram_app.paranoiabottelegram.repository.mapper.FileMapper;
 import telegram_app.paranoiabottelegram.repository.mapper.UserStateMapper;
 
 import java.util.List;
@@ -18,19 +19,20 @@ public class UserStateService
         implements ServiceInterface<UserState, UserStateEntity, Long> {
     private final JpaUserStateRepository repository;
 
-    private final UserStateMapper mapper;
+    private final UserStateMapper userStateMapper;
     private final DisciplineLecturerMapper disciplineLecturerMapper;
+    private final FileMapper fileMapper;
 
     public UserState getOrCreate(Long telegramId){
         return repository.findById(telegramId)
-                .map(mapper::toModel)
+                .map(userStateMapper::toModel)
                 .orElseGet(
                         () -> {
                             UserState newUser = UserState.builder()
                                     .chatId(telegramId)
                                     .state(BotState.IDLE)
                                     .build();
-                            repository.save(mapper.toEntity(newUser));
+                            repository.save(userStateMapper.toEntity(newUser));
                             return newUser;
                         });
     }
@@ -50,7 +52,7 @@ public class UserStateService
 
     @Override
     public UserStateEntity save(UserState userState) {
-        return repository.save(mapper.toEntity(userState));
+        return repository.save(userStateMapper.toEntity(userState));
     }
 
     @Override
@@ -73,18 +75,18 @@ public class UserStateService
         userStateEntity.setDisciplineLecturer(disciplineLecturerMapper.toEntity(newModel.getDisciplineLecturer()));
         userStateEntity.setTitle(newModel.getTitle());
         userStateEntity.setDescription(newModel.getDescription());
-        userStateEntity.setFileId(newModel.getFileId());
+        userStateEntity.setFiles(newModel.getFiles().stream().map(fileMapper::toEntity).toList());
         userStateEntity.setDeadline(newModel.getDeadline());
         repository.save(userStateEntity);
     }
 
     @Override
     public List<UserState> findAll() {
-        return repository.findAll().stream().map(mapper::toModel).toList();
+        return repository.findAll().stream().map(userStateMapper::toModel).toList();
     }
 
     @Override
     public Optional<UserState> findById(Long id) {
-        return repository.findById(id).stream().map(mapper::toModel).findFirst();
+        return repository.findById(id).stream().map(userStateMapper::toModel).findFirst();
     }
 }

@@ -3,6 +3,8 @@ package telegram_app.paranoiabottelegram.models;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,8 +18,8 @@ public class UserState {
     private DisciplineLecturer disciplineLecturer;
     private String title;
     private String description;
-    private String fileId;
     private LocalDateTime deadline;
+    private List<File> files = new ArrayList<>();
 
     public void clear() {
         this.setState(BotState.IDLE);
@@ -25,7 +27,7 @@ public class UserState {
         this.setDeadline(null);
         this.setDescription(null);
         this.setTitle(null);
-        this.setFileId(null);
+        this.setFiles(new ArrayList<>());
     }
 
     public Homework toHomeworkDraft(){
@@ -34,8 +36,8 @@ public class UserState {
                 .title(this.title)
                 .description(this.description)
                 .telegramId(this.chatId)
-                .fileId(this.fileId)
                 .deadline(this.deadline)
+                .files(this.files)
                 .build();
     }
 }

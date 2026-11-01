@@ -46,7 +46,7 @@ public class SaveHandler extends AbstractCallbackQueryHandler {
                     .title(userState.getTitle())
                     .description(userState.getDescription())
                     .telegramId(chatId)
-                    .fileId(userState.getFileId())
+                    .files(userState.getFiles())
                     .deadline(deadline)
                     .build();
             homeworkService.save(homework);
