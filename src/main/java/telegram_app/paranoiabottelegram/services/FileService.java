@@ -46,4 +46,8 @@ public class FileService implements ServiceInterface<File, FileEntity, Long>{
     public Optional<File> findById(Long id) {
         return repository.findById(id).stream().map(mapper::toModel).findFirst();
     }
+
+    public List<File> findFilesByUserStateChatId(Long chatId) {
+        return repository.findFileEntitiesByUserState_ChatId(chatId).stream().map(mapper::toModel).toList();
+    }
 }
