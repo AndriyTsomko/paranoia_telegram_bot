@@ -19,6 +19,7 @@ public class UserState {
     private String title;
     private String description;
     private LocalDateTime deadline;
+    @Builder.Default
     private List<File> files = new ArrayList<>();
 
     public void clear() {
