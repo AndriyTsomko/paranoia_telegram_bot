@@ -2,8 +2,12 @@ package telegram_app.paranoiabottelegram.repository.mapper;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import telegram_app.paranoiabottelegram.entity.FileEntity;
 import telegram_app.paranoiabottelegram.entity.UserStateEntity;
 import telegram_app.paranoiabottelegram.models.UserState;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -15,15 +19,24 @@ public class UserStateMapper implements MapperInterface<UserState, UserStateEnti
         if (userState == null) {
             return null;
         }
-        return UserStateEntity.builder()
+        UserStateEntity userStateEntity = UserStateEntity.builder()
                 .chatId(userState.getChatId())
                 .state(userState.getState())
                 .disciplineLecturer(disciplineLecturerMapper.toEntity(userState.getDisciplineLecturer()))
                 .title(userState.getTitle())
                 .description(userState.getDescription())
-                .files(userState.getFiles().stream().map(fileMapper::toEntity).toList())
                 .deadline(userState.getDeadline())
                 .build();
+
+        if (userState.getFiles() != null) {
+            List<FileEntity> fileEntities = userState.getFiles().stream()
+                    .map(fileMapper::toEntity)
+                    .peek(fileEntity -> fileEntity.setUserState(userStateEntity))
+                    .toList();
+            userStateEntity.setFiles(fileEntities);
+        }
+
+        return userStateEntity;
     }
 
     @Override
@@ -37,7 +50,9 @@ public class UserStateMapper implements MapperInterface<UserState, UserStateEnti
                 .disciplineLecturer(disciplineLecturerMapper.toModel(userStateEntity.getDisciplineLecturer()))
                 .title(userStateEntity.getTitle())
                 .description(userStateEntity.getDescription())
-                .files(userStateEntity.getFiles().stream().map(fileMapper::toModel).toList())
+                .files(userStateEntity.getFiles() != null
+                        ? new ArrayList<>(userStateEntity.getFiles().stream().map(fileMapper::toModel).toList())
+                        : new ArrayList<>())
                 .deadline(userStateEntity.getDeadline())
                 .build();
     }

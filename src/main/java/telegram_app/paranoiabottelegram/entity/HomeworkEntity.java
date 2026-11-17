@@ -36,7 +36,7 @@ public class HomeworkEntity {
     @Column(name = "deadline", nullable = false)
     private LocalDateTime deadline;
 
-    @OneToMany(mappedBy = "homework", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "homework", fetch = FetchType.EAGER, cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<FileEntity> files;
 
 }
