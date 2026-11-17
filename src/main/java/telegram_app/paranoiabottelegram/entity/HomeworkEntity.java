@@ -2,8 +2,8 @@ package telegram_app.paranoiabottelegram.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "homeworks")
@@ -33,9 +33,10 @@ public class HomeworkEntity {
     @Column(name = "telegram_id", nullable = false)
     private Long telegramId;
 
-    @Column(name = "file_id")
-    private String fileId;
-
     @Column(name = "deadline", nullable = false)
     private LocalDateTime deadline;
+
+    @OneToMany(mappedBy = "homework", fetch = FetchType.EAGER, cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<FileEntity> files;
+
 }

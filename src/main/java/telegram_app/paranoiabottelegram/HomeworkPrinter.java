@@ -1,6 +1,7 @@
 package telegram_app.paranoiabottelegram;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChat;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -22,6 +23,7 @@ public class HomeworkPrinter {
         printHomework(userState.toHomeworkDraft(), userState.getChatId());
     }
 
+    @SneakyThrows
     public void printHomework(Homework homework, Long chatId) {
         String discipline = homework.getDisciplineLecturer() != null ?
                 homework.getDisciplineLecturer().getDiscipline().getName() : "не вказано";
@@ -64,6 +66,11 @@ public class HomeworkPrinter {
                 username
         );
 
-        telegramMessageSender.sendMessage(chatId, homeworkText);
+        if (homework.getFiles() != null && !homework.getFiles().isEmpty()) {
+            telegramMessageSender.sendMessage(chatId, homeworkText, homework.getFiles());
+        } else {
+            telegramMessageSender.sendMessage(chatId, homeworkText);
+        }
+
     }
 }

@@ -1,11 +1,15 @@
 package telegram_app.paranoiabottelegram.services;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import telegram_app.paranoiabottelegram.entity.HomeworkEntity;
+import telegram_app.paranoiabottelegram.models.File;
 import telegram_app.paranoiabottelegram.models.Homework;
+import telegram_app.paranoiabottelegram.repository.jpa.JpaFileRepository;
 import telegram_app.paranoiabottelegram.repository.jpa.JpaHomeworkRepository;
 import telegram_app.paranoiabottelegram.repository.mapper.DisciplineLecturerMapper;
+import telegram_app.paranoiabottelegram.repository.mapper.FileMapper;
 import telegram_app.paranoiabottelegram.repository.mapper.HomeworkMapper;
 
 import java.time.DayOfWeek;
@@ -23,11 +27,26 @@ public class HomeworkService
 
     private final HomeworkMapper homeworkMapper;
     private final JpaHomeworkRepository repository;
+    private final JpaFileRepository fileRepository;
     private final DisciplineLecturerMapper disciplineLecturerMapper;
+    private final FileMapper fileMapper;
 
     @Override
+    @Transactional
     public HomeworkEntity save(Homework homework) {
-        return repository.save(homeworkMapper.toEntity(homework));
+        HomeworkEntity savedHomework = repository.save(homeworkMapper.toEntity(homework));
+        if (homework.getFiles() != null) {
+            for (File file : homework.getFiles()) {
+                if (file.getId() != null) {
+                    fileRepository.findById(file.getId()).ifPresent(fileEntity -> {
+                        fileEntity.setHomework(savedHomework);
+                        fileEntity.setUserState(null);
+                        fileRepository.save(fileEntity);
+                    });
+                }
+            }
+        }
+        return savedHomework;
     }
 
     @Override
@@ -51,7 +70,7 @@ public class HomeworkService
         entity.setTitle(newModel.getTitle());
         entity.setDescription(newModel.getDescription());
         entity.setTelegramId(newModel.getTelegramId());
-        entity.setFileId(newModel.getFileId());
+        entity.setFiles(newModel.getFiles().stream().map(fileMapper::toEntity).toList());
         entity.setDeadline(newModel.getDeadline());
         repository.save(entity);
     }
