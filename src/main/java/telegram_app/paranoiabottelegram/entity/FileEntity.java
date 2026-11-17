@@ -14,6 +14,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "files")
@@ -35,6 +37,7 @@ public class FileEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "homework_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private HomeworkEntity homework;
 
     @ManyToOne(fetch = FetchType.EAGER)
