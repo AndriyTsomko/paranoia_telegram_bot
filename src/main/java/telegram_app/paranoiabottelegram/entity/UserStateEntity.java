@@ -36,6 +36,6 @@ public class UserStateEntity {
     @Column(name = "deadline")
     private LocalDateTime deadline;
 
-    @OneToMany(mappedBy = "userState", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userState", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<FileEntity> files;
 }
