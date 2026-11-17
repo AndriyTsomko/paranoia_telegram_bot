@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import telegram_app.paranoiabottelegram.handlers.interfaces.CallbackQueryHandler;
 import telegram_app.paranoiabottelegram.handlers.interfaces.MessageHandler;
+import telegram_app.paranoiabottelegram.handlers.message_input_handlers.FileFieldInputHandler;
 import telegram_app.paranoiabottelegram.models.UserState;
 import telegram_app.paranoiabottelegram.services.UserStateService;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class UpdateConsumer implements LongPollingSingleThreadUpdateConsumer {
     private final List<CallbackQueryHandler> callbackQueryHandlerList;
     private final List<MessageHandler> messageHandlerList;
+    private final FileFieldInputHandler fileFieldInputHandler;
     private final UserStateService userStateService;
 
     @SneakyThrows
@@ -29,7 +31,10 @@ public class UpdateConsumer implements LongPollingSingleThreadUpdateConsumer {
             UserState user = userStateService.getOrCreate(update.getMessage().getChatId());
 
             Message message = update.getMessage();
-
+            if ((message.hasDocument() || message.hasPhoto()) && fileFieldInputHandler.canHandle(message, user)){
+                fileFieldInputHandler.handle(message, user);
+                return;
+            }
             messageHandlerList.stream()
                     .filter(messageHandler -> messageHandler.canHandle(message, user))
                     .findFirst()
