@@ -13,6 +13,7 @@ public class Constants {
     public static final String CHECK_TODAY_HOMEWORK = "Переглянути ДЗ на сьогодні";
     public static final String CHECK_WEEK_HOMEWORK = "Переглянути ДЗ на тиждень";
     public static final String CHECK_HOMEWORK_BY_OWN_TIME = "Переглянути дз за власним періодом часу";
+    public static final String ADD_BROADCAST = "Додати оголошення";
 
     public static final String CALLBACK_ADD_TITLE = "add_title";
     public static final String CALLBACK_ADD_DESCRIPTION = "add_description";
@@ -23,14 +24,14 @@ public class Constants {
     public static final String CALLBACK_SAVE_HOMEWORK = "save_homework";
     public static final String CALLBACK_CANCEL = "back";
 
-    public static final String ADD_TITLE = "Додати заголовок";
-    public static final String ADD_DESCRIPTION = "Додати опис";
-    public static final String ADD_DEADLINE = "*Додати дедлайн";
-    public static final String ADD_FILE = "Додати файл";
-    public static final String CHOOSE_DISCIPLINE = "*Вибрати предмет";
-    public static final String REVIEW_HOMEWORK = "Переглянути";
-    public static final String SAVE_HOMEWORK = "Зберегти";
-    public static final String CANCEL = "Скасувати";
+    public static final String ADD_TITLE = "\uD83D\uDCCC Додати заголовок";
+    public static final String ADD_DESCRIPTION = "ℹ\uFE0F Додати опис";
+    public static final String ADD_DEADLINE = "\uD83D\uDCC5 *Додати термін виконання";
+    public static final String ADD_FILE = "\uD83D\uDCC4 Додати файл";
+    public static final String CHOOSE_DISCIPLINE = "\uD83D\uDCDA *Вибрати предмет";
+    public static final String REVIEW_HOMEWORK = "\uD83D\uDC40 Переглянути";
+    public static final String SAVE_HOMEWORK = "✅ Зберегти";
+    public static final String CANCEL = "❌ Скасувати";
 
     public static final String CALLBACK_EDIT_TITLE = "edit_title";
     public static final String CALLBACK_EDIT_DESCRIPTION = "edit_description";
@@ -38,11 +39,11 @@ public class Constants {
     public static final String CALLBACK_EDIT_FILE = "edit_file";
     public static final String CALLBACK_EDIT_DISCIPLINE = "edit_discipline";
 
-    public static final String EDIT_TITLE = "Змінити заголовок";
-    public static final String EDIT_DESCRIPTION = "Змінити опис";
-    public static final String EDIT_DEADLINE = "Змінити дедлайн";
-    public static final String EDIT_FILE = "Змінити файл";
-    public static final String EDIT_DISCIPLINE = "Змінити предмет";
+    public static final String EDIT_TITLE = "\uD83D\uDCCC Змінити заголовок";
+    public static final String EDIT_DESCRIPTION = "ℹ\uFE0F Змінити опис";
+    public static final String EDIT_DEADLINE = "\uD83D\uDCC5 Змінити термін виконання";
+    public static final String EDIT_FILE = "\uD83D\uDCC4 Змінити файл";
+    public static final String EDIT_DISCIPLINE = "\uD83D\uDCDA Змінити предмет";
 
     public static final List<InlineKeyboardHomeworkCreatingButton> INLINE_KEYBOARD_HOMEWORK_CREATING_BUTTON_LIST = List.of(
             InlineKeyboardCreateAndEditButton.builder()
