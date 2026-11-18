@@ -28,7 +28,7 @@ public class FileHandler extends AbstractCallbackQueryHandler {
 
     @Override
     protected String getPromptMessage() {
-        return "Надішліть файл чи фото:";
+        return "<b>Надішліть файл чи фото:</b>\n\n<i>*Фото і документи відсилати\n віддільно один від одного</i>";
     }
 
     @Override
