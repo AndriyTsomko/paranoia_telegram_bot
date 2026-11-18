@@ -66,8 +66,11 @@ public class KeyboardService {
         row2.add(new KeyboardButton(Constants.CHECK_TODAY_HOMEWORK));
         row2.add(new KeyboardButton(Constants.CHECK_WEEK_HOMEWORK));
 
+        KeyboardRow row3 = new KeyboardRow();
+        row3.add(new KeyboardButton(ADD_BROADCAST));
+
         return ReplyKeyboardMarkup.builder()
-                .keyboard(List.of(row1, row2))
+                .keyboard(List.of(row1, row2, row3))
                 .resizeKeyboard(true)
                 .oneTimeKeyboard(false)
                 .build();
