@@ -12,7 +12,7 @@ public class DeadlineParser {
 
     private static final Locale UKRAINIAN_LOCALE = new Locale("uk", "UA");
 
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     private static final DateTimeFormatter FLEXIBLE_FORMATTER = new DateTimeFormatterBuilder()
             .appendOptional(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
@@ -25,6 +25,7 @@ public class DeadlineParser {
             .appendOptional(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
             .appendOptional(DateTimeFormatter.ofPattern("d MMMM yyyy", UKRAINIAN_LOCALE))
             .appendOptional(DateTimeFormatter.ofPattern("d MMMM yyyy 'року'", UKRAINIAN_LOCALE))
+            .appendOptional(DateTimeFormatter.ofPattern("d MMMM HH:mm", UKRAINIAN_LOCALE))
             .appendOptional(DateTimeFormatter.ofPattern("d MMMM", UKRAINIAN_LOCALE))
             .parseDefaulting(ChronoField.HOUR_OF_DAY, 23)
             .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 59)

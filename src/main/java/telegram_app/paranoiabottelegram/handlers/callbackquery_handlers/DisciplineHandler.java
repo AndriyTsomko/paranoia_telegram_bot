@@ -42,7 +42,7 @@ public class DisciplineHandler extends AbstractCallbackQueryHandler {
 
     @Override
     protected String getEditCallback() {
-        return Constants.CALLBACK_CHOOSE_DISCIPLINE;
+        return Constants.CALLBACK_EDIT_DISCIPLINE;
     }
 
     @Override
