@@ -3,7 +3,6 @@ package telegram_app.paranoiabottelegram.services;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
@@ -12,7 +11,6 @@ import telegram_app.paranoiabottelegram.constants.Constants;
 import telegram_app.paranoiabottelegram.models.UserState;
 import telegram_app.paranoiabottelegram.models.inline_keyboard_buttons.InlineKeyboardCreateAndEditButton;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -88,12 +86,6 @@ public class KeyboardService {
                 .keyboard(List.of(row1, row2, row3))
                 .resizeKeyboard(true)
                 .oneTimeKeyboard(false)
-                .build();
-    }
-
-    public ReplyKeyboardRemove replyKeyboardRemove() {
-        return ReplyKeyboardRemove.builder()
-                .removeKeyboard(true)
                 .build();
     }
 
