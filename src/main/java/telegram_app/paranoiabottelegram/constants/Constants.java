@@ -11,6 +11,7 @@ public class Constants {
 
     public static final String ADD_HOMEWORK = "Додати ДЗ";
     public static final String CHECK_TODAY_HOMEWORK = "Переглянути ДЗ на сьогодні";
+    public static final String CHECK_TOMORROW_HOMEWORK = "Переглянути ДЗ на завтра";
     public static final String CHECK_WEEK_HOMEWORK = "Переглянути ДЗ на тиждень";
     public static final String CHECK_HOMEWORK_BY_OWN_TIME = "Переглянути дз за власним періодом часу";
     public static final String ADD_BROADCAST = "Додати оголошення";
