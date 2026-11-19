@@ -36,7 +36,7 @@ public abstract class AbstractFieldInputMessageHandler implements MessageHandler
         userState.setState(BotState.CREATING_HOMEWORK);
         userStateService.save(userState);
 
-        telegramMessageSender.sendMessage(chatId, "Оберіть пункт меню", keyboardService.getHomeworkInlineKeyboard());
+        telegramMessageSender.sendMessage(chatId, "Оберіть пункт меню", keyboardService.getHomeworkInlineKeyboard(userState));
     }
 
     protected abstract BotState getTargetState();

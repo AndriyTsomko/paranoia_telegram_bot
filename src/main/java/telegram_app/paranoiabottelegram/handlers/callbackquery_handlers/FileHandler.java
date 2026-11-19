@@ -23,7 +23,7 @@ public class FileHandler extends AbstractCallbackQueryHandler {
 
     @Override
     protected String getEditCallback() {
-        return Constants.CALLBACK_EDIT_FILE;
+        return Constants.CALLBACK_ADD_FILE;
     }
 
     @Override

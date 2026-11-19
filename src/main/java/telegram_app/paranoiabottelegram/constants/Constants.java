@@ -36,13 +36,11 @@ public class Constants {
     public static final String CALLBACK_EDIT_TITLE = "edit_title";
     public static final String CALLBACK_EDIT_DESCRIPTION = "edit_description";
     public static final String CALLBACK_EDIT_DEADLINE = "edit_deadline";
-    public static final String CALLBACK_EDIT_FILE = "edit_file";
     public static final String CALLBACK_EDIT_DISCIPLINE = "edit_discipline";
 
     public static final String EDIT_TITLE = "\uD83D\uDCCC Змінити заголовок";
     public static final String EDIT_DESCRIPTION = "ℹ\uFE0F Змінити опис";
     public static final String EDIT_DEADLINE = "\uD83D\uDCC5 Змінити термін виконання";
-    public static final String EDIT_FILE = "\uD83D\uDCC4 Змінити файл";
     public static final String EDIT_DISCIPLINE = "\uD83D\uDCDA Змінити предмет";
 
     public static final List<InlineKeyboardHomeworkCreatingButton> INLINE_KEYBOARD_HOMEWORK_CREATING_BUTTON_LIST = List.of(
@@ -51,6 +49,7 @@ public class Constants {
                     .name(ADD_TITLE)
                     .editCommandName(EDIT_TITLE)
                     .callbackEditCommandName(CALLBACK_EDIT_TITLE)
+                    .isFilled(user -> user.getTitle() != null && !user.getTitle().isBlank())
                     .build(),
 
             InlineKeyboardCreateAndEditButton.builder()
@@ -58,6 +57,7 @@ public class Constants {
                     .name(ADD_DESCRIPTION)
                     .editCommandName(EDIT_DESCRIPTION)
                     .callbackEditCommandName(CALLBACK_EDIT_DESCRIPTION)
+                    .isFilled(user -> user.getDescription() != null && !user.getDescription().isBlank())
                     .build(),
 
             InlineKeyboardCreateAndEditButton.builder()
@@ -65,13 +65,12 @@ public class Constants {
                     .name(ADD_DEADLINE)
                     .editCommandName(EDIT_DEADLINE)
                     .callbackEditCommandName(CALLBACK_EDIT_DEADLINE)
+                    .isFilled(user -> user.getDeadline() != null)
                     .build(),
 
             InlineKeyboardCreateAndEditButton.builder()
                     .callbackName(CALLBACK_ADD_FILE)
                     .name(ADD_FILE)
-                    .editCommandName(EDIT_FILE)
-                    .callbackEditCommandName(CALLBACK_EDIT_FILE)
                     .build(),
 
             InlineKeyboardCreateAndEditButton.builder()
@@ -79,6 +78,7 @@ public class Constants {
                     .name(CHOOSE_DISCIPLINE)
                     .editCommandName(EDIT_DISCIPLINE)
                     .callbackEditCommandName(CALLBACK_EDIT_DISCIPLINE)
+                    .isFilled(user -> user.getDisciplineLecturer() != null)
                     .build(),
 
             InlineKeyboardSimpleButton.builder()

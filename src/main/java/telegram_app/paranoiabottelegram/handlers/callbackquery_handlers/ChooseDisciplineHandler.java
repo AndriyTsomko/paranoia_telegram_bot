@@ -36,7 +36,7 @@ public class ChooseDisciplineHandler extends AbstractCallbackQueryHandler {
         Integer messageId = callbackQuery.getMessage().getMessageId();
 
         telegramMessageSender.deleteMessage(chatId, messageId);
-        telegramMessageSender.sendMessage(chatId, "Виберіть пункт меню", keyboardService.getHomeworkInlineKeyboard());
+        telegramMessageSender.sendMessage(chatId, "Виберіть пункт меню", keyboardService.getHomeworkInlineKeyboard(userState));
     }
 
     @Override

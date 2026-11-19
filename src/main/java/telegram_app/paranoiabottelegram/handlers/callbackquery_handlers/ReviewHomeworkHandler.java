@@ -30,7 +30,7 @@ public class ReviewHomeworkHandler extends AbstractCallbackQueryHandler {
         telegramMessageSender.deleteMessage(chatId, messageId);
 
         homeworkPrinter.printHomework(userState);
-        telegramMessageSender.sendMessage(chatId, "Оберіть пункт меню", keyboardService.getHomeworkInlineKeyboard());
+        telegramMessageSender.sendMessage(chatId, "Оберіть пункт меню", keyboardService.getHomeworkInlineKeyboard(userState));
     }
 
     @Override

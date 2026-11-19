@@ -9,7 +9,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import telegram_app.paranoiabottelegram.constants.Constants;
+import telegram_app.paranoiabottelegram.models.UserState;
+import telegram_app.paranoiabottelegram.models.inline_keyboard_buttons.InlineKeyboardCreateAndEditButton;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,13 +21,24 @@ import static telegram_app.paranoiabottelegram.constants.Constants.*;
 
 @Component
 public class KeyboardService {
-    public InlineKeyboardMarkup getHomeworkInlineKeyboard() {
+    public InlineKeyboardMarkup getHomeworkInlineKeyboard(UserState user) {
         List<InlineKeyboardButton> buttons = INLINE_KEYBOARD_HOMEWORK_CREATING_BUTTON_LIST.stream()
-                .map(button -> InlineKeyboardButton.builder()
-                        .text(button.getName())
-                        .callbackData(button.getCallbackName())
-                        .build())
-                .collect(Collectors.toList());
+                .map(button -> {
+                            String text;
+                            String callbackData;
+                            if (button instanceof InlineKeyboardCreateAndEditButton && ((InlineKeyboardCreateAndEditButton) button).isFilled(user)) {
+                                text = ((InlineKeyboardCreateAndEditButton) button).getEditCommandName();
+                                callbackData = ((InlineKeyboardCreateAndEditButton) button).getCallbackEditCommandName();
+                            } else {
+                                text = button.getName();
+                                callbackData = button.getCallbackName();
+                            }
+                            return InlineKeyboardButton.builder()
+                                    .text(text)
+                                    .callbackData(callbackData)
+                                    .build();
+                        }
+                ).collect(Collectors.toList());
 
 
         List<InlineKeyboardRow> keyboardRows = new ArrayList<>();
