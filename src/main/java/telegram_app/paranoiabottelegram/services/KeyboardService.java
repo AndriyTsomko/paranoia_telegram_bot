@@ -74,14 +74,15 @@ public class KeyboardService {
     public ReplyKeyboardMarkup getMainKeyboard() {
         KeyboardRow row1 = new KeyboardRow();
         row1.add(new KeyboardButton(ADD_HOMEWORK));
-//        row1.add(new KeyboardButton(CHECK_HOMEWORK_BY_OWN_TIME));//todo
+        row1.add(new KeyboardButton(ADD_BROADCAST));
 
         KeyboardRow row2 = new KeyboardRow();
         row2.add(new KeyboardButton(Constants.CHECK_TODAY_HOMEWORK));
-        row2.add(new KeyboardButton(Constants.CHECK_WEEK_HOMEWORK));
+        row2.add(new KeyboardButton(CHECK_TOMORROW_HOMEWORK));
 
         KeyboardRow row3 = new KeyboardRow();
-        row3.add(new KeyboardButton(ADD_BROADCAST));
+        row3.add(new KeyboardButton(Constants.CHECK_WEEK_HOMEWORK));
+        row3.add(new KeyboardButton(CHECK_HOMEWORK_BY_OWN_TIME));
 
         return ReplyKeyboardMarkup.builder()
                 .keyboard(List.of(row1, row2, row3))
