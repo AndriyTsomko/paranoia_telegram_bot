@@ -23,7 +23,7 @@ public class DeadlineHandler extends AbstractCallbackQueryHandler {
 
     @Override
     protected String getEditCallback() {
-        return Constants.CALLBACK_ADD_DEADLINE;
+        return Constants.CALLBACK_EDIT_DEADLINE;
     }
 
     @Override
