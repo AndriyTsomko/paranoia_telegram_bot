@@ -89,7 +89,7 @@ public class HomeworkService
         LocalDate today = LocalDate.now();
         LocalDateTime startOfDay = today.atStartOfDay();
         LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
-        return repository.findHomeworkEntitiesByDeadlineBetween(startOfDay, endOfDay)
+        return repository.findHomeworkEntitiesByDeadlineBetweenOrderByDeadlineAsc(startOfDay, endOfDay)
                 .stream()
                 .map(homeworkMapper::toModel)
                 .toList();
@@ -98,7 +98,7 @@ public class HomeworkService
         LocalDate today = LocalDate.now();
         LocalDateTime startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).atStartOfDay();
         LocalDateTime endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).atTime(LocalTime.MAX);
-        return repository.findHomeworkEntitiesByDeadlineBetween(startOfWeek, endOfWeek)
+        return repository.findHomeworkEntitiesByDeadlineBetweenOrderByDeadlineAsc(startOfWeek, endOfWeek)
                 .stream()
                 .map(homeworkMapper::toModel)
                 .toList();
