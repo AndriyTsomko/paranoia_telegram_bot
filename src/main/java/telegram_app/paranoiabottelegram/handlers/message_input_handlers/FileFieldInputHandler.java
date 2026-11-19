@@ -44,7 +44,7 @@ public class FileFieldInputHandler implements MessageHandler {
         String mediaGroupId = message.getMediaGroupId();
         if (mediaGroupId == null) {
             handleFiles(Collections.singletonList(message), userState);
-            telegramMessageSender.sendMessage(userState.getChatId(), "Оберіть пункт меню", keyboardService.getHomeworkInlineKeyboard());
+            telegramMessageSender.sendMessage(userState.getChatId(), "Оберіть пункт меню", keyboardService.getHomeworkInlineKeyboard(userState));
         } else {
             handleMediaGroup(mediaGroupId, message, userState);
         }
@@ -112,7 +112,7 @@ public class FileFieldInputHandler implements MessageHandler {
                     List<Message> messageList = mediaGroupBuffer.remove(mediaGroup);
                     messageList.sort(Comparator.comparingInt(Message::getMessageId));
                     handleFiles(messageList, user);
-                    telegramMessageSender.sendMessage(user.getChatId(), "Оберіть пункт меню", keyboardService.getHomeworkInlineKeyboard());
+                    telegramMessageSender.sendMessage(user.getChatId(), "Оберіть пункт меню", keyboardService.getHomeworkInlineKeyboard(user));
                 }, 800, TimeUnit.MILLISECONDS);
                 return list;
             } else {
