@@ -11,6 +11,7 @@ public class Constants {
 
     public static final String ADD_HOMEWORK = "Додати ДЗ";
     public static final String CHECK_TODAY_HOMEWORK = "Переглянути ДЗ на сьогодні";
+    public static final String CHECK_TOMORROW_HOMEWORK = "Переглянути ДЗ на завтра";
     public static final String CHECK_WEEK_HOMEWORK = "Переглянути ДЗ на тиждень";
     public static final String CHECK_HOMEWORK_BY_OWN_TIME = "Переглянути дз за власним періодом часу";
     public static final String ADD_BROADCAST = "Додати оголошення";
@@ -25,7 +26,7 @@ public class Constants {
     public static final String CALLBACK_CANCEL = "back";
 
     public static final String ADD_TITLE = "\uD83D\uDCCC Додати заголовок";
-    public static final String ADD_DESCRIPTION = "ℹ\uFE0F Додати опис";
+    public static final String ADD_DESCRIPTION = "ℹ️ Додати опис";
     public static final String ADD_DEADLINE = "\uD83D\uDCC5 *Додати термін виконання";
     public static final String ADD_FILE = "\uD83D\uDCC4 Додати файл";
     public static final String CHOOSE_DISCIPLINE = "\uD83D\uDCDA *Вибрати предмет";
@@ -39,7 +40,7 @@ public class Constants {
     public static final String CALLBACK_EDIT_DISCIPLINE = "edit_discipline";
 
     public static final String EDIT_TITLE = "\uD83D\uDCCC Змінити заголовок";
-    public static final String EDIT_DESCRIPTION = "ℹ\uFE0F Змінити опис";
+    public static final String EDIT_DESCRIPTION = "ℹ️ Змінити опис";
     public static final String EDIT_DEADLINE = "\uD83D\uDCC5 Змінити термін виконання";
     public static final String EDIT_DISCIPLINE = "\uD83D\uDCDA Змінити предмет";
 
