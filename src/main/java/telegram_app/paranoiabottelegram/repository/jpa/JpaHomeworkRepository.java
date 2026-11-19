@@ -7,7 +7,8 @@ import telegram_app.paranoiabottelegram.entity.HomeworkEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @Repository
 public interface JpaHomeworkRepository extends JpaRepository<HomeworkEntity, Long> {
-    List<HomeworkEntity> findHomeworkEntitiesByDeadlineBetween(LocalDateTime deadlineAfter, LocalDateTime deadlineBefore);
+    List<HomeworkEntity> findHomeworkEntitiesByDeadlineBetweenOrderByDeadlineAsc(LocalDateTime deadlineAfter, LocalDateTime deadlineBefore);
 }
