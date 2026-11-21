@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface JpaFileRepository extends JpaRepository<FileEntity, Long> {
     List<FileEntity> findFileEntitiesByUserState_ChatId(Long userStateChatId);
+    List<FileEntity> findFileEntitiesByHomeworkId(Long homeworkId);
 }
