@@ -6,20 +6,16 @@ import telegram_app.paranoiabottelegram.constants.Constants;
 import telegram_app.paranoiabottelegram.handlers.abstract_classes.AbstractCallbackQueryHandler;
 import telegram_app.paranoiabottelegram.models.BotState;
 import telegram_app.paranoiabottelegram.models.UserState;
-import telegram_app.paranoiabottelegram.services.DisciplineLecturerService;
 import telegram_app.paranoiabottelegram.services.KeyboardService;
 import telegram_app.paranoiabottelegram.services.UserStateService;
 import telegram_app.paranoiabottelegram.telegram.TelegramMessageSender;
 
 @Component
 public class DisciplineHandler extends AbstractCallbackQueryHandler {
-    private final DisciplineLecturerService disciplineLecturerService;
-
     public DisciplineHandler(KeyboardService keyboardService,
                              TelegramMessageSender telegramMessageSender,
-                             UserStateService userStateService, DisciplineLecturerService disciplineLecturerService) {
+                             UserStateService userStateService) {
         super(keyboardService, telegramMessageSender, userStateService);
-        this.disciplineLecturerService = disciplineLecturerService;
     }
 
     @Override
@@ -30,7 +26,7 @@ public class DisciplineHandler extends AbstractCallbackQueryHandler {
         telegramMessageSender.deleteMessage(chatId, messageId);
 
         telegramMessageSender.sendMessage(chatId, "Оберіть пункт меню",
-                keyboardService.getDisciplinesInlineKeyboard(disciplineLecturerService));
+                keyboardService.getDisciplinesInlineKeyboard());
 
         userStateService.updateState(userState, BotState.AWAITING_DISCIPLINE);
     }
