@@ -23,6 +23,7 @@ public class Constants {
     public static final String CALLBACK_CHOOSE_DISCIPLINE = "choose_discipline";
     public static final String CALLBACK_REVIEW_HOMEWORK = "review_homework";
     public static final String CALLBACK_SAVE_HOMEWORK = "save_homework";
+    public static final String CALLBACK_CLEAR_FILES = "clear_files";
     public static final String CALLBACK_CANCEL = "back";
 
     public static final String ADD_TITLE = "\uD83D\uDCCC Додати заголовок";
@@ -30,6 +31,7 @@ public class Constants {
     public static final String ADD_DEADLINE = "\uD83D\uDCC5 *Додати термін виконання";
     public static final String ADD_FILE = "\uD83D\uDCC4 Додати файл";
     public static final String CHOOSE_DISCIPLINE = "\uD83D\uDCDA *Вибрати предмет";
+    public static final String CLEAR_FILES = "\uD83D\uDDD1\uFE0FОчистити файли";
     public static final String REVIEW_HOMEWORK = "\uD83D\uDC40 Переглянути";
     public static final String SAVE_HOMEWORK = "✅ Зберегти";
     public static final String CANCEL = "❌ Скасувати";
@@ -43,6 +45,16 @@ public class Constants {
     public static final String EDIT_DESCRIPTION = "ℹ️ Змінити опис";
     public static final String EDIT_DEADLINE = "\uD83D\uDCC5 Змінити термін виконання";
     public static final String EDIT_DISCIPLINE = "\uD83D\uDCDA Змінити предмет";
+
+    public static final String DELETE_HOMEWORK = "Видалити ДЗ";
+    public static final String CALLBACK_DELETE_HOMEWORK = "delete_homework";
+    public static final String REVIEW_FILES = "Переглянути файли";
+    public static final String CALLBACK_REVIEW_FILES = "review_files";
+
+    public static final String CONFIRM_OPERATION = "Так";
+    public static final String CALLBACK_CONFIRM_OPERATION = "yes";
+    public static final String CANCEL_OPERATION = "Ні";
+    public static final String CALLBACK_CANCEL_OPERATION = "no";
 
     public static final List<InlineKeyboardHomeworkCreatingButton> INLINE_KEYBOARD_HOMEWORK_CREATING_BUTTON_LIST = List.of(
             InlineKeyboardCreateAndEditButton.builder()
@@ -83,6 +95,11 @@ public class Constants {
                     .build(),
 
             InlineKeyboardSimpleButton.builder()
+                    .callbackName(CALLBACK_CLEAR_FILES)
+                    .name(CLEAR_FILES)
+                    .build(),
+
+            InlineKeyboardSimpleButton.builder()
                     .callbackName(CALLBACK_REVIEW_HOMEWORK)
                     .name(REVIEW_HOMEWORK)
                     .build(),
@@ -95,6 +112,28 @@ public class Constants {
             InlineKeyboardSimpleButton.builder()
                     .callbackName(CALLBACK_CANCEL)
                     .name(CANCEL)
+                    .build()
+    );
+
+    public static final List<InlineKeyboardSimpleButton> INLINE_KEYBOARD_REVIEW_HOMEWORK_BUTTON_LIST = List.of(
+            InlineKeyboardSimpleButton.builder()
+                    .callbackName(CALLBACK_DELETE_HOMEWORK)
+                    .name(DELETE_HOMEWORK)
+                    .build(),
+            InlineKeyboardSimpleButton.builder()
+                    .callbackName(CALLBACK_REVIEW_FILES)
+                    .name(REVIEW_FILES)
+                    .build()
+    );
+
+    public static final List<InlineKeyboardSimpleButton> INLINE_KEYBOARD_CONFIRMING_OPERATION_BUTTON_LIST = List.of(
+            InlineKeyboardSimpleButton.builder()
+                    .callbackName(CALLBACK_CONFIRM_OPERATION)
+                    .name(CONFIRM_OPERATION)
+                    .build(),
+            InlineKeyboardSimpleButton.builder()
+                    .callbackName(CALLBACK_CANCEL_OPERATION)
+                    .name(CANCEL_OPERATION)
                     .build()
     );
 }
