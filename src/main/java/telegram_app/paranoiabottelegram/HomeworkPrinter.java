@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import telegram_app.paranoiabottelegram.models.Homework;
 import telegram_app.paranoiabottelegram.models.UserState;
+import telegram_app.paranoiabottelegram.services.KeyboardService;
 import telegram_app.paranoiabottelegram.telegram.TelegramMessageSender;
 
 import java.time.format.TextStyle;
@@ -18,13 +19,42 @@ import java.util.Locale;
 public class HomeworkPrinter {
     private final TelegramMessageSender telegramMessageSender;
     private final TelegramClient telegramClient;
+    private final KeyboardService keyboardService;
 
     public void printHomework(UserState userState) {
-        printHomework(userState.toHomeworkDraft(), userState.getChatId());
+        Homework homework = userState.toHomeworkDraft();
+        Long chatId = userState.getChatId();
+        String homeworkText = getStringFormatHomework(homework, chatId);
+        if (homework.getFiles() != null && !homework.getFiles().isEmpty()) {
+            telegramMessageSender.sendMessage(chatId, homeworkText, homework.getFiles());
+        } else {
+            telegramMessageSender.sendMessage(chatId, homeworkText);
+        }
     }
 
     @SneakyThrows
     public void printHomework(Homework homework, Long chatId) {
+        String homeworkText = getStringFormatHomework(homework, chatId);
+        boolean isCreatorHomework = homework.getTelegramId().equals(chatId);
+        Long homeworkId = homework.getId();
+
+        if (homework.getFiles() != null && !homework.getFiles().isEmpty()) {
+            if (isCreatorHomework) {
+                telegramMessageSender.sendMessage(chatId, homeworkText, keyboardService.getReviewKeyboard(homeworkId));
+            } else {
+                telegramMessageSender.sendMessage(chatId, homeworkText, homework.getFiles());
+            }
+        } else {
+            if (isCreatorHomework) {
+                telegramMessageSender.sendMessage(chatId, homeworkText, keyboardService.getReviewKeyboard(homeworkId));
+            }else {
+                telegramMessageSender.sendMessage(chatId, homeworkText);
+            }
+        }
+
+    }
+
+    private String getStringFormatHomework(Homework homework, Long chatId) {
         String discipline = homework.getDisciplineLecturer() != null ?
                 homework.getDisciplineLecturer().getDiscipline().getName() : "не вказано";
 
@@ -55,7 +85,7 @@ public class HomeworkPrinter {
                 day.substring(0, 1).toUpperCase() + day.substring(1)
                 : "";
 
-        String homeworkText = String.format(
+        return String.format(
                 "<b>\uD83D\uDD34Предмет: %s\n\uD83D\uDCC5Термін здачі: %s %s</b>\n\nЗаголовок:\n%s\n\nОпис:\n%s\n\n\uD83D\uDC68\u200D\uD83C\uDFEBВикладач: %s\n\uD83D\uDD17Додано: @%s",
                 discipline,
                 deadline,
@@ -65,12 +95,7 @@ public class HomeworkPrinter {
                 lecturer,
                 username
         );
-
-        if (homework.getFiles() != null && !homework.getFiles().isEmpty()) {
-            telegramMessageSender.sendMessage(chatId, homeworkText, homework.getFiles());
-        } else {
-            telegramMessageSender.sendMessage(chatId, homeworkText);
-        }
-
     }
+
+
 }
