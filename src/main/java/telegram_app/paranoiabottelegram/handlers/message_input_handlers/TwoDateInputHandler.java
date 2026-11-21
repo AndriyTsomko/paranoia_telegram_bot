@@ -6,6 +6,7 @@ import telegram_app.paranoiabottelegram.DeadlineParser;
 import telegram_app.paranoiabottelegram.HomeworkPrinter;
 import telegram_app.paranoiabottelegram.handlers.abstract_classes.AbstractFieldInputMessageHandler;
 import telegram_app.paranoiabottelegram.models.BotState;
+import telegram_app.paranoiabottelegram.models.Homework;
 import telegram_app.paranoiabottelegram.models.UserState;
 import telegram_app.paranoiabottelegram.services.HomeworkService;
 import telegram_app.paranoiabottelegram.services.KeyboardService;
@@ -13,6 +14,7 @@ import telegram_app.paranoiabottelegram.services.UserStateService;
 import telegram_app.paranoiabottelegram.telegram.TelegramMessageSender;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -45,8 +47,12 @@ public class TwoDateInputHandler extends AbstractFieldInputMessageHandler {
                             && secondDate.isPresent()
                             && (firstDate.equals(secondDate) || firstDate.get().isBefore(secondDate.get()))
             ) {
-                homeworkService.findHomeworksBetweenDates(firstDate.get(), secondDate.get())
-                        .forEach(homework -> homeworkPrinter.printHomework(homework, chatId));
+                List<Homework> homeworksBetweenDates = homeworkService.findHomeworksBetweenDates(firstDate.get(), secondDate.get());
+                if (homeworksBetweenDates.isEmpty()) {
+                    telegramMessageSender.sendMessage(chatId, "Не знайдено дз");
+                } else {
+                    homeworksBetweenDates.forEach(homework -> homeworkPrinter.printHomework(homework, chatId));
+                }
             }else {
                 telegramMessageSender.sendMessage(chatId, "Дату введено некоректно");
             }
