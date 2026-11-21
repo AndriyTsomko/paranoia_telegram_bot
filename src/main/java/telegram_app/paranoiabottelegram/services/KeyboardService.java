@@ -1,5 +1,6 @@
 package telegram_app.paranoiabottelegram.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -10,17 +11,31 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import telegram_app.paranoiabottelegram.constants.Constants;
 import telegram_app.paranoiabottelegram.models.UserState;
 import telegram_app.paranoiabottelegram.models.inline_keyboard_buttons.InlineKeyboardCreateAndEditButton;
+import telegram_app.paranoiabottelegram.models.inline_keyboard_buttons.InlineKeyboardSimpleButton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static telegram_app.paranoiabottelegram.constants.Constants.*;
+import static telegram_app.paranoiabottelegram.constants.Constants.ADD_BROADCAST;
+import static telegram_app.paranoiabottelegram.constants.Constants.ADD_HOMEWORK;
+import static telegram_app.paranoiabottelegram.constants.Constants.CHECK_HOMEWORK_BY_OWN_TIME;
+import static telegram_app.paranoiabottelegram.constants.Constants.CHECK_TOMORROW_HOMEWORK;
+import static telegram_app.paranoiabottelegram.constants.Constants.CLEAR_FILES;
+import static telegram_app.paranoiabottelegram.constants.Constants.INLINE_KEYBOARD_CONFIRMING_OPERATION_BUTTON_LIST;
+import static telegram_app.paranoiabottelegram.constants.Constants.INLINE_KEYBOARD_HOMEWORK_CREATING_BUTTON_LIST;
+import static telegram_app.paranoiabottelegram.constants.Constants.INLINE_KEYBOARD_REVIEW_HOMEWORK_BUTTON_LIST;
+import static telegram_app.paranoiabottelegram.constants.Constants.REVIEW_FILES;
 
 @Component
+@RequiredArgsConstructor
 public class KeyboardService {
+    private final DisciplineLecturerService disciplineLecturerService;
+    private final HomeworkService homeworkService;
+
     public InlineKeyboardMarkup getHomeworkInlineKeyboard(UserState user) {
         List<InlineKeyboardButton> buttons = INLINE_KEYBOARD_HOMEWORK_CREATING_BUTTON_LIST.stream()
+                .filter(button -> !(button.getName().equals(CLEAR_FILES) && user.getFiles().isEmpty()))
                 .map(button -> {
                             String text;
                             String callbackData;
@@ -40,22 +55,14 @@ public class KeyboardService {
 
 
         List<InlineKeyboardRow> keyboardRows = new ArrayList<>();
-        for (int i = 0; i < buttons.size(); i += 2) {
-            if (i + 1 < buttons.size()) {
-                keyboardRows.add(new InlineKeyboardRow(buttons.get(i), buttons.get(i + 1)));
-            } else {
-                keyboardRows.add(new InlineKeyboardRow(buttons.get(i)));
-            }
-        }
+        fillInlineKeyboardRows(keyboardRows, buttons);
 
         return InlineKeyboardMarkup.builder()
                 .keyboard(keyboardRows)
                 .build();
     }
 
-    public InlineKeyboardMarkup getDisciplinesInlineKeyboard
-            (DisciplineLecturerService disciplineLecturerService) {
-
+    public InlineKeyboardMarkup getDisciplinesInlineKeyboard() {
         return InlineKeyboardMarkup.builder()
                 .keyboard(disciplineLecturerService.findAll().stream()
                         .map(
@@ -87,6 +94,47 @@ public class KeyboardService {
                 .resizeKeyboard(true)
                 .oneTimeKeyboard(false)
                 .build();
+    }
+
+    public InlineKeyboardMarkup getReviewKeyboard(Long homeworkId) {
+        ArrayList<InlineKeyboardSimpleButton> buttons = new ArrayList<>(INLINE_KEYBOARD_REVIEW_HOMEWORK_BUTTON_LIST);
+        boolean isEmptyFiles = homeworkService.findById(homeworkId).get().getFiles().isEmpty();
+
+        buttons.removeIf(button -> button.getName().equals(REVIEW_FILES) && isEmptyFiles);
+        return getInlineKeyboardByButtonList(buttons, homeworkId);
+    }
+
+    public InlineKeyboardMarkup getConfirmOperationKeyboard(Long homeworkId) {
+        return getInlineKeyboardByButtonList(new ArrayList<>(INLINE_KEYBOARD_CONFIRMING_OPERATION_BUTTON_LIST), homeworkId);
+    }
+
+    private InlineKeyboardMarkup getInlineKeyboardByButtonList(List<InlineKeyboardSimpleButton> buttons, Long homeworkId) {
+        List<InlineKeyboardRow> keyboardRows = new ArrayList<>();
+
+        List<InlineKeyboardButton> collect = buttons.stream()
+                .map(button -> InlineKeyboardButton.builder()
+                        .text(button.getName())
+                        .callbackData(button.getCallbackName() + ":" + homeworkId)
+                        .build()
+                ).collect(Collectors.toList());
+
+        fillInlineKeyboardRows(keyboardRows, collect);
+
+        return InlineKeyboardMarkup.builder()
+                .keyboard(keyboardRows)
+                .build();
+    }
+
+
+    private void fillInlineKeyboardRows(List<InlineKeyboardRow> keyboardRows,
+                                        List<InlineKeyboardButton> buttons) {
+        for (int i = 0; i < buttons.size(); i += 2) {
+            if (i + 1 < buttons.size()) {
+                keyboardRows.add(new InlineKeyboardRow(buttons.get(i), buttons.get(i + 1)));
+            } else {
+                keyboardRows.add(new InlineKeyboardRow(buttons.get(i)));
+            }
+        }
     }
 
 }
